@@ -73,6 +73,9 @@ function MedievalSidebar() {
         >
           <span className="medieval-sidebar__staff-glow" />
           <img alt="" aria-hidden="true" className="medieval-sidebar__staff" src="/baston_sidebar.png" />
+          <span aria-hidden="true" className="medieval-sidebar__mobile-trigger-icon">
+            <i /><i /><i />
+          </span>
           <span className="medieval-sidebar__hint">{isOpen ? 'Cerrar' : 'Abrir'}</span>
         </button>
 
