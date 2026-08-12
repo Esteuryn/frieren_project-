@@ -1,6 +1,6 @@
 function IntroSection() {
   return (
-    <section className="intro section-shell">
+    <section className="intro section-shell" id="historia">
       <h2>
         Para una elfa, diez años de viaje son un recado. Para quienes conoció,
         fueron toda una vida.

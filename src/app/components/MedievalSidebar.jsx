@@ -1,16 +1,27 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
-  { to: '/', label: 'Inicio', detail: 'El comienzo del viaje', icon: 'home' },
-  { to: '/#personajes', label: 'Personajes', detail: 'Héroes y compañeros', icon: 'people' },
-  { to: '/#magia', label: 'Grimorio', detail: 'Hechizos y secretos', icon: 'spark' },
-  { to: '/#viaje', label: 'El viaje', detail: 'Lugares y memorias', icon: 'map' },
+  { id: 'inicio', label: 'Inicio', detail: 'El comienzo del viaje', icon: 'home' },
+  { id: 'historia', label: 'Historia', detail: 'El relato después del final', icon: 'book' },
+  { id: 'personajes', label: 'Personajes', detail: 'Héroes y compañeros', icon: 'people' },
+  { id: 'viaje', label: 'El viaje', detail: 'Lugares y memorias', icon: 'map' },
+  { id: 'magia', label: 'Grimorio', detail: 'Hechizos y secretos', icon: 'spark' },
 ]
+
+function scrollToSection(sectionId) {
+  if (sectionId === 'inicio') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    return
+  }
+
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 
 function MenuIcon({ name }) {
   const paths = {
     home: <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9.5Z" />,
+    book: <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v17H6.5A2.5 2.5 0 0 0 4 22.5v-17Zm16 0A2.5 2.5 0 0 0 17.5 3H12v17h5.5a2.5 2.5 0 0 1 2.5 2.5v-17Z" />,
     people: <path d="M8.5 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7-1a3 3 0 1 0 0-6M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h3a4.5 4.5 0 0 1 4.5 4.5V20m1-6h.5a4 4 0 0 1 4 4v2" />,
     spark: <path d="m12 2 1.25 5.75L19 9l-5.75 1.25L12 16l-1.25-5.75L5 9l5.75-1.25L12 2Zm6 12 .75 3.25L22 18l-3.25.75L18 22l-.75-3.25L14 18l3.25-.75L18 14ZM5 13l.7 3.3L9 17l-3.3.7L5 21l-.7-3.3L1 17l3.3-.7L5 13Z" />,
     map: <path d="m3 6 5-2 8 3 5-2v13l-5 2-8-3-5 2V6Zm5-2v13m8-10v13" />,
@@ -25,8 +36,21 @@ function MenuIcon({ name }) {
 
 function MedievalSidebar() {
   const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation()
   const sidebarId = useId()
   const closeButtonRef = useRef(null)
+  const touchStartRef = useRef(null)
+
+  useEffect(() => {
+    if (location.pathname !== '/' || !location.hash) return undefined
+
+    const sectionId = decodeURIComponent(location.hash.slice(1))
+    const animationFrame = window.requestAnimationFrame(() => {
+      scrollToSection(sectionId)
+    })
+
+    return () => window.cancelAnimationFrame(animationFrame)
+  }, [location.hash, location.pathname])
 
   useEffect(() => {
     if (!isOpen) return undefined
@@ -43,6 +67,42 @@ function MedievalSidebar() {
     return () => {
       document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleTouchStart = (event) => {
+      const touch = event.touches[0]
+      if (!touch) return
+
+      const startsAtEdge = touch.clientX >= window.innerWidth - 72
+      if (isOpen || startsAtEdge) {
+        touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+      }
+    }
+
+    const handleTouchEnd = (event) => {
+      const start = touchStartRef.current
+      const touch = event.changedTouches[0]
+      touchStartRef.current = null
+      if (!start || !touch) return
+
+      const deltaX = touch.clientX - start.x
+      const deltaY = touch.clientY - start.y
+      if (Math.abs(deltaX) < 55 || Math.abs(deltaX) <= Math.abs(deltaY)) return
+
+      if (!isOpen && start.x >= window.innerWidth - 72 && deltaX < 0) {
+        setIsOpen(true)
+      } else if (isOpen && deltaX > 0) {
+        setIsOpen(false)
+      }
+    }
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isOpen])
 
@@ -110,12 +170,30 @@ function MedievalSidebar() {
             <ul>
               {menuItems.map((item) => (
                 <li key={item.label}>
-                  <NavLink
-                    className={({ isActive }) =>
-                      `medieval-sidebar__link ${isActive && item.to === '/' ? 'is-active' : ''}`
+                  <Link
+                    aria-current={
+                      location.pathname === '/' &&
+                      (location.hash === `#${item.id}` || (!location.hash && item.id === 'inicio'))
+                        ? 'location'
+                        : undefined
                     }
-                    onClick={() => setIsOpen(false)}
-                    to={item.to}
+                    className={`medieval-sidebar__link ${
+                      location.pathname === '/' &&
+                      (location.hash === `#${item.id}` || (!location.hash && item.id === 'inicio'))
+                        ? 'is-active'
+                        : ''
+                    }`}
+                    onClick={(event) => {
+                      setIsOpen(false)
+
+                      if (location.pathname === '/' && location.hash === `#${item.id}`) {
+                        event.preventDefault()
+                        window.requestAnimationFrame(() => {
+                          scrollToSection(item.id)
+                        })
+                      }
+                    }}
+                    to={`/#${item.id}`}
                   >
                     <MenuIcon name={item.icon} />
                     <span>
@@ -123,7 +201,7 @@ function MedievalSidebar() {
                       <small>{item.detail}</small>
                     </span>
                     <b aria-hidden="true">›</b>
-                  </NavLink>
+                  </Link>
                 </li>
               ))}
             </ul>

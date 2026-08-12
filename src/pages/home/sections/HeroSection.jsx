@@ -1,6 +1,6 @@
 function HeroSection() {
   return (
-    <section className="hero" id="historia">
+    <section className="hero" id="inicio">
       <div aria-hidden="true" className="hero__landscape">
         <img alt="" className="hero__artwork" src="/HeroImag.jpg" />
         <span className="hero__mist" />
