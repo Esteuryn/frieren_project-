@@ -52,7 +52,15 @@ function CharacterBioModal({ character, index, nextName, onClose, onNext, onPrev
 
         <div className="bio-modal__main">
           <header className={`bio-modal__portrait bio-modal__portrait--${character.id}`}>
-            <span aria-hidden="true" className="bio-modal__glyph">{character.glyph}</span>
+            {character.modalImage ? (
+              <img
+                alt={`Ilustración de ${character.name}`}
+                className="bio-modal__portrait-image"
+                src={character.modalImage}
+              />
+            ) : (
+              <span aria-hidden="true" className="bio-modal__glyph">{character.glyph}</span>
+            )}
             <div className="bio-modal__portrait-shade" />
             <div className="bio-modal__identity">
               <p>Ficha {number}</p>

@@ -17,10 +17,10 @@ function PartySection() {
       <div className="section-shell">
         <div className="section-heading">
           <div>
-            <h2>El grupo</h2>
-            <p>Héroes y compañeros del viaje, tal como los recuerda el archivo.</p>
+            <h2>Personajes</h2>
+            <p>Héroes, maestros y magos, tal como los recuerda el archivo.</p>
           </div>
-          <span>04 perfiles · Toca para abrir</span>
+          <span>{String(party.length).padStart(2, '0')} perfiles · Toca para abrir</span>
         </div>
         <div className="party-grid">
           {party.map((person, index) => (
@@ -31,8 +31,16 @@ function PartySection() {
                 onClick={() => setSelectedIndex(index)}
                 type="button"
               >
-                <div className={`party-card__portrait party-card__portrait--${index + 1}`}>
-                  <span aria-hidden="true">{person.glyph}</span>
+                <div className={`party-card__portrait party-card__portrait--${person.id}`}>
+                  {person.cardImage ? (
+                    <img
+                      alt={`Retrato de ${person.name}`}
+                      className="party-card__portrait-image"
+                      src={person.cardImage}
+                    />
+                  ) : (
+                    <span aria-hidden="true">{person.glyph}</span>
+                  )}
                   <small>Retrato · {person.name}</small>
                   <b>{String(index + 1).padStart(2, '0')}</b>
                 </div>
