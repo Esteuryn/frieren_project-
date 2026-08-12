@@ -1,30 +1,102 @@
 export const party = [
   {
+    id: 'frieren',
     name: 'Frieren',
     role: 'Maga elfa',
     glyph: '✦',
-    description:
-      'Colecciona hechizos sin utilidad aparente y aprende, poco a poco, el peso de los recuerdos.',
+    description: 'Colecciona hechizos sin utilidad aparente y aprende, poco a poco, el peso de los recuerdos.',
+    quote: 'Quería conocer mejor a las personas. Eso era todo.',
+    facts: [
+      { label: 'Raza', value: 'Elfa' },
+      { label: 'Edad', value: 'Más de mil años' },
+      { label: 'Rol', value: 'Maga del grupo' },
+      { label: 'Grimorio', value: 'Inagotable' },
+    ],
+    biography: [
+      'Vivió la guerra contra el Rey Demonio como quien atraviesa una tarde larga. Diez años de viaje le parecieron una diligencia menor, y por eso no se despidió como debía.',
+      'Cincuenta años después, al volver, descubre que sus compañeros envejecieron a la velocidad del clima. Emprende el camino al norte no para vencer nada, sino para entender lo que no miró a tiempo.',
+    ],
+    moments: [
+      { year: 'AÑO 00', title: 'La lluvia de meteoros', note: 'Prometió volver en cincuenta años. Cumplió, y llegó tarde de todos modos.' },
+      { year: 'AÑO 02', title: 'El funeral de Himmel', note: 'La primera vez que llora. No entiende por qué le duele algo tan pequeño.' },
+      { year: 'AÑO 05', title: 'El examen de primera clase', note: 'Aprueba sin proponérselo. Le interesaba más el hechizo del examinador.' },
+    ],
+    tagLabel: 'Hechizos coleccionados',
+    tags: ['Hacer florecer campos', 'Encontrar miel', 'Limpiar la ropa', 'Convertir uvas en vino'],
   },
   {
+    id: 'fern',
     name: 'Fern',
     role: 'Aprendiz',
     glyph: '☾',
-    description:
-      'Heredera de un grimorio y de la costumbre de hacer las preguntas que nadie quiere responder.',
+    description: 'Heredera de un grimorio y de la costumbre de hacer las preguntas que nadie quiere responder.',
+    quote: 'No es que sea rápida. Es que usted es demasiado lenta.',
+    facts: [
+      { label: 'Raza', value: 'Humana' },
+      { label: 'Edad', value: '17 años' },
+      { label: 'Rol', value: 'Aprendiz de maga' },
+      { label: 'Tutor', value: 'Heiter' },
+    ],
+    biography: [
+      'Huérfana de la guerra, fue criada por el sacerdote que la apartó del borde de un acantilado. Aprendió magia porque era el mejor futuro que él podía ofrecerle.',
+      'Cuida de Frieren como quien cuida de una anciana distraída: raciones, horarios y reproches breves. Su afecto se parece mucho a una regañina bien administrada.',
+    ],
+    moments: [
+      { year: 'AÑO 00', title: 'El acantilado', note: 'Heiter la detiene con una frase. Ella decide quedarse un día más, y luego otro.' },
+      { year: 'AÑO 04', title: 'Primera ofensiva completa', note: 'Lanza el conjuro más rápido que Frieren ha visto en siglos.' },
+      { year: 'AÑO 06', title: 'Maga de primera clase', note: 'Demuestra una precisión y una disciplina que no dependen de su maestra.' },
+    ],
+    tagLabel: 'Rasgos',
+    tags: ['Precisión', 'Paciencia corta', 'Disciplina', 'Golosa en secreto'],
   },
   {
+    id: 'stark',
     name: 'Stark',
     role: 'Guerrero',
     glyph: '◇',
-    description:
-      'Un joven de gran corazón que carga con el legado de su maestro y el miedo de no estar a su altura.',
+    description: 'Un joven de gran corazón que carga con el legado de su maestro y el miedo de no estar a su altura.',
+    quote: 'Tengo miedo cada vez. Voy igual.',
+    facts: [
+      { label: 'Raza', value: 'Humano' },
+      { label: 'Edad', value: '19 años' },
+      { label: 'Rol', value: 'Guerrero del grupo' },
+      { label: 'Arma', value: 'Hacha de Eisen' },
+    ],
+    biography: [
+      'Huyó de su aldea siendo un niño y creció bajo la tutela de un enano que casi nunca lo elogió. Confunde valentía con ausencia de miedo, y por eso se cree un cobarde.',
+      'Protege al grupo con una constancia que él mismo no reconoce. Cocina bien, discute con Fern y lleva en cada golpe las enseñanzas de Eisen.',
+    ],
+    moments: [
+      { year: 'AÑO 00', title: 'La huida', note: 'Su aldea arde. Corre, y carga esa carrera durante años.' },
+      { year: 'AÑO 03', title: 'El dragón rojo', note: 'Tiembla de principio a fin. Lo derriba de un solo golpe.' },
+      { year: 'AÑO 07', title: 'El cumpleaños', note: 'Por primera vez alguien celebra que haya nacido. No sabe qué hacer con las manos.' },
+    ],
+    tagLabel: 'Rasgos',
+    tags: ['Fuerza bruta', 'Miedo escénico', 'Buen cocinero', 'Lealtad terca'],
   },
   {
+    id: 'himmel',
     name: 'Himmel',
     role: 'Héroe',
     glyph: '✧',
-    description:
-      'Su breve vida humana dejó una huella que Frieren solo comenzó a comprender muchos años después.',
+    description: 'Su breve vida humana dejó una huella que Frieren solo comenzó a comprender muchos años después.',
+    quote: 'Lo importante no es ser recordado. Es haber cambiado algo mientras estabas aquí.',
+    facts: [
+      { label: 'Raza', value: 'Humano' },
+      { label: 'Rol', value: 'Héroe del grupo' },
+      { label: 'Viaje', value: 'Diez años' },
+      { label: 'Legado', value: 'Innumerable' },
+    ],
+    biography: [
+      'Encabezó el grupo que derrotó al Rey Demonio y convirtió cada desvío del camino en una oportunidad para ayudar a alguien. Su vanidad nunca fue más grande que su bondad.',
+      'Comprendió antes que Frieren la brevedad de una vida humana. Dejó estatuas, promesas y pequeños gestos para que ella pudiera encontrarlo de nuevo cuando estuviera lista para mirar atrás.',
+    ],
+    moments: [
+      { year: 'AÑO 00', title: 'La espada del héroe', note: 'No logra extraerla de la piedra y decide salvar al mundo de todos modos.' },
+      { year: 'AÑO 10', title: 'El regreso triunfal', note: 'La aventura termina bajo la lluvia de meteoros y una promesa de reencuentro.' },
+      { year: 'AÑO 60', title: 'El último adiós', note: 'Su ausencia transforma el viaje de Frieren en una búsqueda por comprenderlo.' },
+    ],
+    tagLabel: 'Legado',
+    tags: ['Compasión', 'Determinación', 'Estatuas', 'Memoria'],
   },
 ]
