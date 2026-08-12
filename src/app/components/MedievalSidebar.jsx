@@ -27,6 +27,7 @@ function MedievalSidebar() {
   const [isOpen, setIsOpen] = useState(false)
   const sidebarId = useId()
   const closeButtonRef = useRef(null)
+  const touchStartRef = useRef(null)
 
   useEffect(() => {
     if (!isOpen) return undefined
@@ -43,6 +44,42 @@ function MedievalSidebar() {
     return () => {
       document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleTouchStart = (event) => {
+      const touch = event.touches[0]
+      if (!touch) return
+
+      const startsAtEdge = touch.clientX >= window.innerWidth - 72
+      if (isOpen || startsAtEdge) {
+        touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+      }
+    }
+
+    const handleTouchEnd = (event) => {
+      const start = touchStartRef.current
+      const touch = event.changedTouches[0]
+      touchStartRef.current = null
+      if (!start || !touch) return
+
+      const deltaX = touch.clientX - start.x
+      const deltaY = touch.clientY - start.y
+      if (Math.abs(deltaX) < 55 || Math.abs(deltaX) <= Math.abs(deltaY)) return
+
+      if (!isOpen && start.x >= window.innerWidth - 72 && deltaX < 0) {
+        setIsOpen(true)
+      } else if (isOpen && deltaX > 0) {
+        setIsOpen(false)
+      }
+    }
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isOpen])
 
